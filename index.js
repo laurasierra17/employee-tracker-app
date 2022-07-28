@@ -5,7 +5,7 @@ const Database = require('./config/business_db');
 
 // Instantiate database
 const mydb = new Database();
-mydb.viewRoles();
+mydb.addDepartment("HR");
 function init() {
 
 }

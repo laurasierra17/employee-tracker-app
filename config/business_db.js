@@ -69,8 +69,12 @@ class Database {
         })
     }
     // Adds a department to the database
-    addDepartment() {
-
+    addDepartment(nameDept) {
+        let query = `INSERT INTO department (name) VALUES (?)`
+        this.connection.query(query, nameDept, (err, result) => {
+            if (err) console.log(err)
+            console.log(`Added ${nameDept} to the database`);
+        })
     }
 }
 

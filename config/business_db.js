@@ -2,10 +2,35 @@ const mysql = require('mysql2');
 
 class Database {
     constructor() {
-        this.host = '127.0.0.1',
-        this.user = 'root',
-        this.password = 'password',
-        this.database = 'business_db'
+        config = {
+            host: '127.0.0.1',
+            user: 'root',
+            password: 'password',
+            database: 'business_db'
+        };
+        this.connection = mysql.createConnection(config);
+    }
+
+    addEmployee() {
+
+    }
+    viewEmployees() {
+
+    }
+    updateEmployeeRole() {
+
+    }
+    viewRoles() {
+
+    }
+    addRole() {
+
+    }
+    viewDepartments() {
+
+    }
+    addDepartment() {
+        
     }
 }
 

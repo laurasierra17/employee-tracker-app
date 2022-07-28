@@ -16,10 +16,10 @@ class Database {
     addEmployee(firstName, lastName, roleId, managerId) {
         let query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
 
-        this.connection.promise().query(query, [firstName, lastName, roleId, managerId])
+        return this.connection.promise().query(query, [firstName, lastName, roleId, managerId])
             .then(result => console.log(`Added ${firstName} ${lastName} to the database`))
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
 
     // Displays the employees table
@@ -36,20 +36,20 @@ class Database {
              INNER JOIN role ON employee.role_id = role.id
              INNER JOIN department ON role.department_id = department.id`
 
-        this.connection.promise().query(query)
+        return this.connection.promise().query(query)
             .then(result => console.table(result[0]))
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
 
     // Update an employee's role
     updateEmployeeRole(employeeName, newRoleId) {
         let query = `UPDATE employee SET role_id = ? WHERE last_name = ?`
 
-        this.connection.promise().query(query, [newRoleId, employeeName.split(' ')[1]])
+        return this.connection.promise().query(query, [newRoleId, employeeName.split(' ')[1]])
             .then(result => `Updated employee's role`)
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
     // Displays the roles table
     viewRoles() {
@@ -58,38 +58,38 @@ class Database {
             FROM role
             JOIN department ON role.department_id = department.id`;
 
-        this.connection.promise().query(query)
+        return this.connection.promise().query(query)
             .then(result => console.table(result[0]))
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
     // Adds a role to the database
     addRole(nameRole, salaryRole, deptId) {
         let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
 
-        this.connection.promise().query(query, [nameRole, salaryRole, deptId])
+        return this.connection.promise().query(query, [nameRole, salaryRole, deptId])
             .then(result => `Added ${nameRole} to the database`)
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
 
     // Displays the departments table
     viewDepartments() {
         let query = `SELECT * FROM department`;
 
-        this.connection.promise().query(query)
+        return this.connection.promise().query(query)
             .then(result => console.table(result[0]))
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
     // Adds a department to the database
     addDepartment(nameDept) {
         let query = `INSERT INTO department (name) VALUES (?)`
 
-        this.connection.promise().query(query, nameDept)
+        return this.connection.promise().query(query, nameDept)
             .then(result => `Added ${nameDept} to the database`)
             .catch(console.log)
-            .then(() => this.connection.end());
+        // .then(() => this.connection.end());
     }
 }
 

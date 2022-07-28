@@ -17,8 +17,13 @@ class Database {
     }
 
     // Adds an employee to the database
-    addEmployee() {
-
+    addEmployee(firstName, lastName, roleId, managerId) {
+        let query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
+        
+        this.connection.query(query, [firstName, lastName, roleId, managerId], (err, result) => {
+            if (err) console.log(err)
+            console.log(`Added ${firstName} ${lastName} to the database`);
+        })
     }
     // Displays the employees table
     viewEmployees() {

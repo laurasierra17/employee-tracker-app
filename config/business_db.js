@@ -40,8 +40,12 @@ class Database {
     }
 
     // Update an employee's role
-    updateEmployeeRole() {
-
+    updateEmployeeRole(employeeName, newRoleId) {
+        let query = `UPDATE employee SET role_id = ? WHERE last_name = ?`
+        this.connection.query(query, [newRoleId, employeeName.split(' ')[1]], (err, result) => {
+            if (err) console.log(err)
+            console.log(`Updated employee's role`);
+        })
     }
     // Displays the roles table
     viewRoles() {

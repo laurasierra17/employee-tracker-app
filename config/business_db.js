@@ -56,8 +56,12 @@ class Database {
         })
     }
     // Adds a role to the database
-    addRole() {
-
+    addRole(nameRole, salaryRole, deptId) {
+        let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+        this.connection.query(query, [nameRole, salaryRole, deptId], (err, result) => {
+            if (err) console.log(err)
+            console.log(`Added ${nameRole} to the database`);
+        })
     }
 
     // Displays the departments table

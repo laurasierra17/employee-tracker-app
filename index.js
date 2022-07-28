@@ -5,8 +5,7 @@ const Database = require('./config/business_db');
 
 // Instantiate database
 const mydb = new Database();
-mydb.confirmConnection();
-mydb.viewEmployees();
+mydb.viewDepartments();
 function init() {
 
 }

@@ -38,6 +38,7 @@ class Database {
             console.table(result)
         })
     }
+
     // Update an employee's role
     updateEmployeeRole() {
 
@@ -50,9 +51,14 @@ class Database {
     addRole() {
 
     }
+
     // Displays the departments table
     viewDepartments() {
-
+        let query = `SELECT * FROM department`;
+        this.connection.query(query, (err, result) => {
+            if (err) console.log(err);
+            console.table(result)
+        })
     }
     // Adds a department to the database
     addDepartment() {

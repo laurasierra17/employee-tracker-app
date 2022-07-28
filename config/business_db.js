@@ -45,7 +45,15 @@ class Database {
     }
     // Displays the roles table
     viewRoles() {
+        let query = 
+            `SELECT role.id, role.title, department.name, role.salary
+            FROM role
+            JOIN department ON role.department_id = department.id`;
 
+        this.connection.query(query, (err, result) => {
+            if (err) console.log(err);
+            console.table(result)
+        })
     }
     // Adds a role to the database
     addRole() {

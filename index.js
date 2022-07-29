@@ -79,6 +79,7 @@ function viewDepartments() {
 }
 
 // --------------------- ADDING ------------------------
+// Prompts user for data to add a new employee to the database
 function addEmployee() {
     inquirer.prompt([
         {
@@ -111,6 +112,7 @@ function addEmployee() {
     })
 }
 
+// Prompts user for data to add a new role to the database
 function addRole() {
     inquirer.prompt([
         {
@@ -137,6 +139,7 @@ function addRole() {
     })
 }
 
+// Prompts user for data to add a new department to the database
 function addDepartment() {
     inquirer.prompt([
         {
@@ -153,6 +156,7 @@ function addDepartment() {
 }
 
 // --------------------- UPDATING ------------------------
+// Prompts user for data to update an employee in the database
 function updateEmployeeRole() {
     inquirer.prompt([
         {

@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const cTable = require('console.table');
 const init = require('..');
 
+// Class that instantiates a connection with the database and allows for data reading and manipulation
 class Database {
     constructor() {
         this.config = {
@@ -13,12 +14,15 @@ class Database {
         this.connection = mysql.createConnection(this.config);
     }
 
+    // Retrieves a list of employees
     getEmployeeList() {
         return this.connection.promise().query(`SELECT CONCAT(first_name, ' ', last_name) AS employee FROM employee`);
     }
+    // Retrieves a list of roles
     getRolesList() {
         return this.connection.promise().query(`SELECT title FROM role`);
     }
+    // Retrieves a list of departments
     getDepartmentsList() {
         return this.connection.promise().query(`SELECT name FROM department`);
     }

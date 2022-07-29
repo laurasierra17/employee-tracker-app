@@ -7,10 +7,12 @@ const mydb = new Database();
 // List of choices the user can select from during the promp
 const choices = ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Quit"];
 
+// Based on user selection, a database manipulation will take place and data will be logged to the terminal
 function renderChoice(response) {
     // console.log(response)
     switch (response) {
         case choices[0]:
+            console.log('here 2')
             mydb.viewEmployees();
             break;
         case choices[1]:
@@ -43,9 +45,14 @@ async function init() {
         }
     );
     let response = await questions;
-    // console.log(response.action)
-    renderChoice(response.action);
-    init();
+    console.log('here 1')
+    let display = await new Promise(() => renderChoice(response.action))
+
+    let next = await display;
+    if (next) {
+        console.log('here 5')
+        init();
+    }
 }
 
 // Commence mysql and iquirer as soon as the project runs

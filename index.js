@@ -42,15 +42,15 @@ function renderChoice(response) {
 }
 
 // ----------------- Functions used to update the arrays containing employees, roles, and departments ----------------------
-// print current employee list
+// retrieve current employee list
 async function getEmployeeList() {
     return mydb.getEmployeeList().then(data => data[0].forEach(employee => employeeList.push(employee.employee)));
 }
-// print current roles list
+// retrieve current roles list
 async function getRolesList() {
     return mydb.getRolesList().then(data => data[0].forEach(role => roleList.push(role.title)));
 }
-// print current department list
+// retrieve current department list
 async function getDepartmentsList() {
     return mydb.getDepartmentsList().then(data => data[0].forEach(dept => departmentList.push(dept.name)));
 }

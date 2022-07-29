@@ -6,6 +6,12 @@ const mydb = new Database();
 
 // List of choices the user can select from during the promp
 const choices = ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Quit"];
+// List of employees
+let employeeList = [];
+// List of roles
+let roleList = [];
+// List of departments
+let departmentList = [];
 
 // Based on user selection, a database manipulation will take place and data will be logged to the terminal
 function renderChoice(response) {
@@ -33,8 +39,22 @@ function renderChoice(response) {
             addDepartment();
             break;
         case choices[7]:
-            break;
+            return;
     }
+}
+
+// ----------------- Functions used to update the arrays containing employees, roles, and departments ----------------------
+// print current employee list
+async function getEmployeeList() {
+    return mydb.getEmployeeList().then(data => data[0].forEach(employee => employeeList.push(employee.employee)));
+}
+// print current roles list
+async function getRolesList() {
+    return mydb.getRolesList().then(data => data[0].forEach(role => roleList.push(role.title)));
+}
+// print current department list
+async function getDepartmentsList() {
+    return mydb.getDepartmentsList().then(data => data[0].forEach(dept => departmentList.push(dept.name)));
 }
 
 // --------------------- VIEWING ------------------------
@@ -76,13 +96,13 @@ function addEmployee() {
         {
             type: "list",
             message: "What is the employee's role?",
-            choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer", "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"],
+            choices: roleList,
             name: "role"
         },
         {
             type: "list",
             message: "Who is the employee's manager?",
-            choices: ["John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen", "None"],
+            choices: employeeList,
             name: "manager"
         }
     ]).then(response => {
@@ -108,7 +128,7 @@ function addRole() {
         {
             type: "list",
             message: "Which department does the role belong to?",
-            choices: ["Engineering", "Finance", "Legal", "Sales", "Service"],
+            choices: departmentList,
             name: "department"
         },
     ]).then(response => {
@@ -129,7 +149,7 @@ function addDepartment() {
     ]).then(response => {
         mydb.addDepartment(response.deptName).then(data => {
             console.log(`Added ${response.deptName} to the database`);
-            // init();
+            init();
         })
     })
 }
@@ -140,13 +160,13 @@ function updateEmployeeRole() {
         {
             type: "list",
             message: "Which employee's role do you want to update?",
-            choices: ["John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen"],
+            choices: employeeList,
             name: "employeeName"
         },
         {
             type: "list",
             message: "Which role do you want to assign the selected employee?",
-            choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer", "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"],
+            choices: roleList,
             name: "newRole"
         },
     ]).then(response => {
@@ -160,6 +180,12 @@ function updateEmployeeRole() {
 
 // Initializes application with the prompts
 function init() {
+    // Update lists every time we run these questions
+    getEmployeeList().then();
+    getRolesList().then();
+    getDepartmentsList().then()
+
+    // Questionnaire for user
     inquirer.prompt(
         {
             type: "list",

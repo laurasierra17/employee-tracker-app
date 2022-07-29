@@ -14,11 +14,10 @@ class Database {
     }
 
     getEmployeeList() {
-        return this.connection.promise().query(`SELECT CONCAT(first_name, ' ', last_name) FROM employee`);
+        return this.connection.promise().query(`SELECT CONCAT(first_name, ' ', last_name) AS employee FROM employee`);
     }
     getRolesList() {
-        this.connection.promise().query(`SELECT title FROM role`)
-            .then(data => [...data]);
+        return this.connection.promise().query(`SELECT title FROM role`);
     }
     getDepartmentsList() {
         return this.connection.promise().query(`SELECT name FROM department`);

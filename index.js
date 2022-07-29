@@ -41,27 +41,56 @@ function renderChoice(response) {
 function viewEmployees() {
     mydb.viewEmployees().then(data => {
         console.table(data[0])
-        init()
+        init();
     })
 }
 // Function to view roles and restart the prompt
 function viewRoles() {
     mydb.viewRoles().then(data => {
         console.table(data[0])
-        init()
+        init();
     })
 }
 // Function to view departments and restart the prompt
 function viewDepartments() {
     mydb.viewDepartments().then(data => {
         console.table(data[0])
-        init()
+        init();
     })
 }
 
 // --------------------- ADDING ------------------------
 function addEmployee() {
-    
+    console.log("here 1")
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the employee's first name?",
+            name: "fName"
+        },
+        {
+            type: "input",
+            message: "What is the employee's last name?",
+            name: "lName"
+        },
+        {
+            type: "list",
+            message: "What is the employee's role?",
+            choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer", "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"],
+            name: "role"
+        },
+        {
+            type: "list",
+            message: "Who is the employee's manager?",
+            choices: ["John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen", "None"],
+            name: "manager"
+        }
+    ]).then(response => {
+        mydb.addEmployee(response.fName, response.lName, response.role, response.manager).then(data => {
+            console.log(`Added ${response.fName} ${response.lName} to the database`);
+            init();
+        })
+    })
 }
 
 function addRole() {

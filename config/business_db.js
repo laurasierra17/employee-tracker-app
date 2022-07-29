@@ -13,14 +13,32 @@ class Database {
         this.connection = mysql.createConnection(this.config);
     }
 
-    // Adds an employee to the database
-    addEmployee(firstName, lastName, roleId, managerId) {
-        let query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
+    getEmployeeList() {
+        return this.connection.promise().query(`SELECT CONCAT(first_name, ' ', last_name) FROM employee`);
+    }
+    getRolesList() {
+        this.connection.promise().query(`SELECT title FROM role`)
+            .then(data => [...data]);
+    }
+    getDepartmentsList() {
+        return this.connection.promise().query(`SELECT name FROM department`);
+    }
 
-        this.connection.query(query, [firstName, lastName, roleId, managerId], (err, result) => {
-            if (err) console.log(err)
-            console.log(`Added ${firstName} ${lastName} to the database`);
-        })
+    // Adds an employee to the database
+    async addEmployee(firstName, lastName, role, manager) {
+        const ids = [];
+        // get roleId of given role
+        await this.connection.promise().query(`SELECT id FROM role WHERE title = "${role}"`).then(data => {
+            ids.push(data[0][0].id);
+        });
+        // get managerId of given manager
+        manager = manager.split(' ');
+        await this.connection.promise().query(`SELECT id FROM employee WHERE first_name = ? AND last_name = ?`, [manager[0], manager[1]]).then(data => {
+            ids.push(data[0][0].id);
+        });
+
+        let query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}", ${ids[0]}, ${ids[1]})`
+        return this.connection.promise().query(query);
     }
     // Displays the employees table
     viewEmployees() {

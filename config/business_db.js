@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const cTable = require('console.table');
+const init = require('..');
 
 class Database {
     constructor() {
@@ -15,7 +16,7 @@ class Database {
     // Adds an employee to the database
     addEmployee(firstName, lastName, roleId, managerId) {
         let query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
-        
+
         this.connection.query(query, [firstName, lastName, roleId, managerId], (err, result) => {
             if (err) console.log(err)
             console.log(`Added ${firstName} ${lastName} to the database`);
@@ -35,17 +36,7 @@ class Database {
              INNER JOIN role ON employee.role_id = role.id
              INNER JOIN department ON role.department_id = department.id`
 
-        console.log('here 3')
-        return this.connection.promise().query(query)
-            .then(result => {
-                console.table(result[0])
-                console.log('here 4')
-            })
-            .catch(console.log)
-        // this.connection.query(query, (err, result) => {
-        //     if (err) console.log(err);
-        //     return console.table(result)
-        // })
+        return this.connection.promise().query(query);
     }
 
     // Update an employee's role
@@ -58,15 +49,12 @@ class Database {
     }
     // Displays the roles table
     viewRoles() {
-        let query = 
+        let query =
             `SELECT role.id, role.title, department.name, role.salary
             FROM role
             JOIN department ON role.department_id = department.id`;
 
-        this.connection.query(query, (err, result) => {
-            if (err) console.log(err);
-            console.table(result)
-        })
+        return this.connection.promise().query(query);
     }
     // Adds a role to the database
     addRole(nameRole, salaryRole, deptId) {
@@ -80,10 +68,7 @@ class Database {
     // Displays the departments table
     viewDepartments() {
         let query = `SELECT * FROM department`;
-        this.connection.query(query, (err, result) => {
-            if (err) console.log(err);
-            console.table(result)
-        })
+        return this.connection.promise().query(query);
     }
     // Adds a department to the database
     addDepartment(nameDept) {

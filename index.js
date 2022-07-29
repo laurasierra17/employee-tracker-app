@@ -12,47 +12,78 @@ function renderChoice(response) {
     // console.log(response)
     switch (response) {
         case choices[0]:
-            console.log('here 2')
-            mydb.viewEmployees();
+            viewEmployees();
             break;
         case choices[1]:
+            addEmployee();
             break;
         case choices[2]:
             break;
         case choices[3]:
-            mydb.viewRoles();
+            viewRoles();
             break;
         case choices[4]:
+            addRole();
             break;
         case choices[5]:
-            mydb.viewDepartments();
+            viewDepartments();
             break;
         case choices[6]:
+            addDepartment();
             break;
         case choices[7]:
             break;
     }
 }
 
+// --------------------- VIEWING ------------------------
+// Function to view employees and restart the prompt
+function viewEmployees() {
+    mydb.viewEmployees().then(data => {
+        console.table(data[0])
+        init()
+    })
+}
+// Function to view roles and restart the prompt
+function viewRoles() {
+    mydb.viewRoles().then(data => {
+        console.table(data[0])
+        init()
+    })
+}
+// Function to view departments and restart the prompt
+function viewDepartments() {
+    mydb.viewDepartments().then(data => {
+        console.table(data[0])
+        init()
+    })
+}
+
+// --------------------- ADDING ------------------------
+function addEmployee() {
+    
+}
+
+function addRole() {
+
+}
+
+function addDepartment() {
+
+}
+
+// --------------------- UPDATING ------------------------
+
 // Initializes application with the prompts
-async function init() {
-    let questions = await inquirer.prompt(
+function init() {
+    inquirer.prompt(
         {
             type: "list",
             message: "What would you like to do?",
             choices: choices,
             name: "action"
         }
-    );
-    let response = await questions;
-    console.log('here 1')
-    let display = await new Promise(() => renderChoice(response.action))
-
-    let next = await display;
-    if (next) {
-        console.log('here 5')
-        init();
-    }
+    ).then(response => renderChoice(response.action))
 }
 
 // Commence mysql and iquirer as soon as the project runs

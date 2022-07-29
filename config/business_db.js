@@ -40,18 +40,13 @@ class Database {
         return this.connection.promise().query(query);
     }
     // Displays the employees table
-    viewEmployees() {
-        // Create a column called 'manager' that includes first and last name of an employee's manager
-        let getManager =
-            `SELECT CONCAT(employee.first_name, ' ', employee.last_name) AS manager
-            FROM employee
-            WHERE employee.manager_id = employee.id`
-
+    async viewEmployees() {
         let query =
-            `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
+            `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, " ", manager.last_name) as manager
              FROM employee 
              INNER JOIN role ON employee.role_id = role.id
-             INNER JOIN department ON role.department_id = department.id`
+             INNER JOIN department ON role.department_id = department.id
+             LEFT JOIN employee manager ON manager.id = employee.manager_id`
 
         return this.connection.promise().query(query);
     }

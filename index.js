@@ -4,7 +4,7 @@ const Database = require('./config/business_db');
 // Instantiate database
 const mydb = new Database();
 
-// List of choices the user can select from during the promp
+// List of choices the user can select from during the prompt
 const choices = ["View All Employees", "Add Employee", "Update Employee Role", "View All Roles", "Add Role", "View All Departments", "Add Department", "Quit"];
 // List of employees
 let employeeList = [];

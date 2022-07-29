@@ -38,8 +38,6 @@ function renderChoice(response) {
         case choices[6]:
             addDepartment();
             break;
-        case choices[7]:
-            return;
     }
 }
 
@@ -193,7 +191,10 @@ function init() {
             choices: choices,
             name: "action"
         }
-    ).then(response => renderChoice(response.action))
+    ).then(response => {
+        if (response.action === "Quit") process.exit(0);
+        renderChoice(response.action);
+    })
 }
 
 // Commence mysql and iquirer as soon as the project runs

@@ -94,7 +94,29 @@ function addEmployee() {
 }
 
 function addRole() {
-
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the role?",
+            name: "roleName"
+        },
+        {
+            type: "input",
+            message: "What is the salary of the role?",
+            name: "salary"
+        },
+        {
+            type: "list",
+            message: "Which department does the role belong to?",
+            choices: ["Engineering", "Finance", "Legal", "Sales", "Service"],
+            name: "department"
+        },
+    ]).then(response => {
+        mydb.addRole(response.roleName, parseFloat(response.salary), response.department).then(data => {
+            console.log(`Added ${response.roleName} to the database`);
+            init();
+        })
+    })
 }
 
 function addDepartment() {

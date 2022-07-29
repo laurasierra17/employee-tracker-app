@@ -78,12 +78,14 @@ class Database {
         return this.connection.promise().query(query);
     }
     // Adds a role to the database
-    addRole(nameRole, salaryRole, deptId) {
+    async addRole(nameRole, salary, dept) {
+        // Get the id corresponding with the given "dept" department name
+        await this.connection.promise().query(`SELECT id FROM department WHERE name = "${dept}"`).then(data => {
+            dept = data[0][0].id;
+        });
+
         let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
-        this.connection.query(query, [nameRole, salaryRole, deptId], (err, result) => {
-            if (err) console.log(err)
-            console.log(`Added ${nameRole} to the database`);
-        })
+        return this.connection.promise().query(query, [nameRole, salary, dept]);
     }
 
     // Displays the departments table

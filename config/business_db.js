@@ -58,12 +58,15 @@ class Database {
     }
 
     // Update an employee's role
-    updateEmployeeRole(employeeName, newRoleId) {
-        let query = `UPDATE employee SET role_id = ? WHERE last_name = ?`
-        this.connection.query(query, [newRoleId, employeeName.split(' ')[1]], (err, result) => {
-            if (err) console.log(err)
-            console.log(`Updated employee's role`);
-        })
+    async updateEmployeeRole(employeeName, newRole) {
+        employeeName = employeeName.split(' ')
+        // Get new role id based on title
+        await this.connection.promise().query(`SELECT id FROM role WHERE title = "${newRole}"`).then(data => {
+            newRole =  data[0][0].id;
+        });
+
+        let query = `UPDATE employee SET role_id = ? WHERE first_name = ? AND last_name = ?`
+        return this.connection.promise().query(query, [newRole, employeeName[0], employeeName[1]])
     }
     // Displays the roles table
     viewRoles() {

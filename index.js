@@ -18,6 +18,7 @@ function renderChoice(response) {
             addEmployee();
             break;
         case choices[2]:
+            updateEmployeeRole();
             break;
         case choices[3]:
             viewRoles();
@@ -61,7 +62,6 @@ function viewDepartments() {
 
 // --------------------- ADDING ------------------------
 function addEmployee() {
-    console.log("here 1")
     inquirer.prompt([
         {
             type: "input",
@@ -102,6 +102,28 @@ function addDepartment() {
 }
 
 // --------------------- UPDATING ------------------------
+function updateEmployeeRole() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Which employee's role do you want to update?",
+            choices: ["John Doe", "Mike Chan", "Ashley Rodriguez", "Kevin Tupik", "Kunal Singh", "Malia Brown", "Sarah Lourd", "Tom Allen"],
+            name: "employeeName"
+        },
+        {
+            type: "list",
+            message: "Which role do you want to assign the selected employee?",
+            choices: ["Sales Lead", "Salesperson", "Lead Engineer", "Software Engineer", "Account Manager", "Accountant", "Legal Team Lead", "Lawyer"],
+            name: "newRole"
+        },
+    ]).then(response => {
+        mydb.updateEmployeeRole(response.employeeName, response.newRole).then(data => {
+            console.log('Updated employee\'s role');
+            init();
+        })
+    })
+}
+
 
 // Initializes application with the prompts
 function init() {

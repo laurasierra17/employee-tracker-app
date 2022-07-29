@@ -120,7 +120,18 @@ function addRole() {
 }
 
 function addDepartment() {
-
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the department?",
+            name: "deptName"
+        }
+    ]).then(response => {
+        mydb.addDepartment(response.deptName).then(data => {
+            console.log(`Added ${response.deptName} to the database`);
+            // init();
+        })
+    })
 }
 
 // --------------------- UPDATING ------------------------

@@ -94,12 +94,9 @@ class Database {
         return this.connection.promise().query(query);
     }
     // Adds a department to the database
-    addDepartment(nameDept) {
+    async addDepartment(nameDept) {
         let query = `INSERT INTO department (name) VALUES (?)`
-        this.connection.query(query, nameDept, (err, result) => {
-            if (err) console.log(err)
-            console.log(`Added ${nameDept} to the database`);
-        })
+        return this.connection.promise().query(query, nameDept)
     }
 }
 
